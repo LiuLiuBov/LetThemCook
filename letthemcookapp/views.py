@@ -4,10 +4,11 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import User
+from .models import User, Recipe
 
 def index_view(request):
-    return render(request, "letthemcook/index.html")
+    recipes = Recipe.objects.all()
+    return render(request, "letthemcook/index.html", {'recipes': recipes})
 
 def login_view(request):
     if request.method == "POST":
@@ -29,7 +30,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("login"))
 
 
 def register(request):
@@ -37,7 +38,6 @@ def register(request):
         username = request.POST["username"]
         email = request.POST["email"]
 
-        # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
@@ -45,7 +45,6 @@ def register(request):
                 "message": "Passwords must match."
             })
 
-        # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()

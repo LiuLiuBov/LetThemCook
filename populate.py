@@ -9,16 +9,24 @@ django.setup()
 from django.contrib.auth.models import User
 from letthemcookapp.models import Recipe, Save, Review
 
+image_path = os.path.join(os.path.dirname(__file__), 'media')
+image_filenames = ['spaghetti.png', 'banana_bread.png']
+
+def get_image_path(filename):
+    return os.path.join(image_path, filename)
+
 def populate():
     # Users
-    user_names = ['alice', 'bob', 'charlie', 'diana']
+    user_names = ['Alice', 'Bob', 'Charlie', 'Diana']
     users = []
 
     for name in user_names:
         user, created = User.objects.get_or_create(username=name, email=f"{name}@example.com")
-        user.set_password('password123')
-        user.save()
+        if created:
+            user.set_password('1234')
+            user.save()
         users.append(user)
+
 
     # Recipes
     recipes_data = [
@@ -27,7 +35,7 @@ def populate():
             "quick_description": "Simple and classic spaghetti with tomato sauce.",
             "content": "Boil pasta, prepare sauce with tomatoes, onions, and garlic.",
             "ingredients": "Spaghetti\nTomatoes\nOnion\nGarlic\nOlive Oil\nSalt\nPepper",
-            "picture": None,
+            "picture": get_image_path(image_filenames[0]),
             "user": users[0]
         },
         {
@@ -35,7 +43,7 @@ def populate():
             "quick_description": "Moist and delicious banana bread.",
             "content": "Mix mashed bananas with flour, sugar, and butter, then bake.",
             "ingredients": "Bananas\nFlour\nSugar\nButter\nEggs\nBaking Soda\nSalt",
-            "picture": None,
+            "picture": get_image_path(image_filenames[1]),
             "user": users[1]
         }
     ]
