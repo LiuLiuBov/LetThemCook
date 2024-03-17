@@ -1,3 +1,6 @@
 from django.contrib import admin
+from letthemcookapp.models import Review, Save
 
-# Register your models here.
+admin.site.register(Review)
+admin.site.register(Save)
+
