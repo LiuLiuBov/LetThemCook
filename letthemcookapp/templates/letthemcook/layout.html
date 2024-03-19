@@ -26,13 +26,13 @@
             {% if user.is_authenticated %}
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">Create Recipe</a>
+                    <a class="nav-link" href="{% url 'createrecipe' %}">Create Recipe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">Saved Recipes</a>
+                    <a class="nav-link" href="{% url 'saved' %}">Saved Recipes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">My Profile</a>
+                    <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
