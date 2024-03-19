@@ -63,6 +63,21 @@ def createrecipe(request):
     recipes = Recipe.objects.all()
     return render(request, 'letthemcook/createrecipe.html', {'recipes': recipes})
 
+def create_review(request):
+    if request.method == "POST":
+        user = request.POST["username"]
+        rating = request.POST["rating"]
+        comment = request.POST["comment"]
+        recipe_id = request.POST["recipe_id"]
+        
+    try:
+        review = Review.objects.create(recipe=recipe_id, user=user, rating= rating, comment= comment)
+        review.save()
+    except:
+        print("error")
+        
+    return render(request, 'letthemcook/index.html')
+
 def saved(request):
     recipes = Recipe.objects.all()
     return render(request, 'letthemcook/saved.html', {'recipes': recipes})
@@ -73,6 +88,7 @@ def profile(request):
     
 def recipe(request, recipe_id):
     context_dict = {}
+    
     try:
         recipe = Recipe.objects.get(id=recipe_id)
         context_dict['recipe'] = recipe
@@ -80,6 +96,7 @@ def recipe(request, recipe_id):
         
         reviews = Review.objects.filter(recipe=recipe_id)
         context_dict['reviews'] = reviews
+
     except Recipe.DoesNotExist:
         context_dict['recipe'] = None
         return redirect(reverse('letthemcook:index'))
