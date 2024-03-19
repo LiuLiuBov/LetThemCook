@@ -56,3 +56,14 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "letthemcook/register.html")
+    
+def recipe(request, recipe_id):
+    context_dict = {}
+    try:
+        recipe = Recipe.objects.get(id=recipe_id)
+        context_dict['recipe'] = recipe
+    except Recipe.DoesNotExist:
+        context_dict['recipe'] = None
+    
+    return render(request, 'letthemcook/recipe.html', context=context_dict)
+        
