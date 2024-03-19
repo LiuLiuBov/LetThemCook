@@ -4,7 +4,9 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import User, Recipe
+from django.shortcuts import redirect
+
+from .models import Review, User, Recipe
 
 def index_view(request):
     recipes = Recipe.objects.all()
@@ -74,8 +76,13 @@ def recipe(request, recipe_id):
     try:
         recipe = Recipe.objects.get(id=recipe_id)
         context_dict['recipe'] = recipe
+        context_dict['ingredients'] = recipe.ingredients.split('\n')
+        
+        reviews = Review.objects.filter(recipe=recipe_id)
+        context_dict['reviews'] = reviews
     except Recipe.DoesNotExist:
         context_dict['recipe'] = None
+        return redirect(reverse('letthemcook:index'))
     
     return render(request, 'letthemcook/recipe.html', context=context_dict)
         

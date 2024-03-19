@@ -2,4 +2,42 @@
 
 {% block body%}
 <h2> {{  recipe.title }} </h2>
+<div style="display:inline-flex; grid-template-columns: 2fr 1fr;">
+    <div class="col-md-4 mb-4 d-flex align-items-stretch"> 
+        {% if recipe.picture %}
+        <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}" sizes="(max-width)">
+        {% endif %}
+    </div>
+
+    <div class="recipe-core">
+        <h5 class="card-title">{{ recipe.title }}</h5>
+        <p class="card-text">{{ recipe.quick_description }}</p>
+        <h5>Ingredients:</h3>    
+        {% for ingredient in ingredients %}
+            <li>{{ingredient}}</li>
+        {% endfor %}
+        <h5>Instructions:</h3>
+        <p class="recipe-content" style="grid-template-columns: fit-content(80%)"> {{recipe.content}} </p>
+    </div>
+
+    <div id="reviews" style="padding:10px">
+        <h5 id="reviews-title">Reviews:</h5>
+        {% for review in reviews %}
+            <div>
+                <h4>{{review.user.username}}</h4>
+                <h6>{{review.rating}}/5 {{review.created_at}}</h6>
+                <p>{{review.comment}}</p>
+            </div>
+        {% endfor %}
+        <div id="create-review" style="border-style: groove; border-color:light-gray; padding: 3px;">
+            <h5 class="add-reviews-title">Leave Your Own Review:</h5>
+            <h6>Rating: </h6> <input id="number" id="rating" name="rating" min="0" max="5" />
+        </div>
+    </div>
+</div>
+
+<div class="buttons">
+    <a href="profile/{{recipe.user}}"class="btn btn-primary mt-auto">View {{recipe.user}}</a>
+    <a href="recipe/{{recipe.id}}" class="btn btn-primary mt-auto">Save Recipe</a>
+</div>
 {% endblock %}
