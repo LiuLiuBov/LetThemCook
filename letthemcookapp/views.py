@@ -30,7 +30,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("login"))
+    return HttpResponseRedirect(reverse("index"))
 
 
 def register(request):
@@ -56,6 +56,18 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "letthemcook/register.html")
+
+def createrecipe(request):
+    recipes = Recipe.objects.all()
+    return render(request, 'letthemcook/createrecipe.html', {'recipes': recipes})
+
+def saved(request):
+    recipes = Recipe.objects.all()
+    return render(request, 'letthemcook/saved.html', {'recipes': recipes})
+
+def profile(request):
+    recipes = Recipe.objects.all()
+    return render(request, 'letthemcook/profile.html', {'recipes': recipes})
     
 def recipe(request, recipe_id):
     context_dict = {}
