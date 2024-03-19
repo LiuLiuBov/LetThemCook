@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.shortcuts import redirect
 
 from .models import Review, User, Recipe
+from .forms import RecipeForm
+from django.contrib.auth.decorators import login_required
 
 def index_view(request):
     recipes = Recipe.objects.all()
@@ -59,29 +61,24 @@ def register(request):
     else:
         return render(request, "letthemcook/register.html")
 
+@login_required
 def createrecipe(request):
-    recipes = Recipe.objects.all()
-    return render(request, 'letthemcook/createrecipe.html', {'recipes': recipes})
-
-def create_review(request):
-    if request.method == "POST":
-        user = request.POST["username"]
-        rating = request.POST["rating"]
-        comment = request.POST["comment"]
-        recipe_id = request.POST["recipe_id"]
-        
-    try:
-        review = Review.objects.create(recipe=recipe_id, user=user, rating= rating, comment= comment)
-        review.save()
-    except:
-        print("error")
-        
-    return render(request, 'letthemcook/index.html')
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, request.FILES)
+        if form.is_valid():
+            recipe = form.save(commit=False)
+            recipe.user = request.user
+            recipe.save()
+            return redirect('index')
+    else:
+        form = RecipeForm()
+    return render(request, 'letthemcook/createrecipe.html', {'form': form})
 
 def saved(request):
     recipes = Recipe.objects.all()
     return render(request, 'letthemcook/saved.html', {'recipes': recipes})
 
+@login_required
 def profile(request):
     recipes = Recipe.objects.all()
     return render(request, 'letthemcook/profile.html', {'recipes': recipes})
