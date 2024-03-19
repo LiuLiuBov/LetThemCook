@@ -1,5 +1,11 @@
 {% extends 'letthemcook/layout.html' %}
 
+
 {% block body %}
-  <h2>Create New Recipe</h2>
+  <h2>Create a Recipe</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Recipe</button>
+  </form>
 {% endblock %}
