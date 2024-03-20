@@ -108,9 +108,10 @@ def recipe(request, recipe_id):
         reviews = Review.objects.filter(recipe=recipe_id)
         context_dict['reviews'] = reviews
         
-        sum = np.sum(review.rating for review in reviews)
-        mean = round(sum / len(reviews),2)
-        context_dict['average'] = mean
+        if(len(reviews) > 0):
+            sum = np.sum(review.rating for review in reviews)
+            mean = round(sum / len(reviews),2)
+            context_dict['average'] = mean
 
     except Recipe.DoesNotExist:
         context_dict['recipe'] = None
