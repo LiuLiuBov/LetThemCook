@@ -1,32 +1,20 @@
 {% extends 'layout.html' %}
+{% load letthemcook_template_tags %}
 
 {% block body %}
   <h2>Popular</h2>
 
   <div class="row">
     <div class="w-75 ml-3">
-        <input type="search" id="search-input"class="form-control ds-input"placeholder="Search..." /></div>
-    <div class="sidebar-sticky" id="recipes-listing">    
-  </div>
-  
-  <div class="container mt-4">
-    <div class="row">
-        {% for recipe in recipes %}
-            <div class="col-md-4 mb-4 d-flex align-items-stretch"> 
-                <div class="card">
-                    {% if recipe.picture %}
-                        <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}">
-                    {% endif %}
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text">{{ recipe.quick_description }}</p>
-                        <a href="recipe/{{recipe.id}}" class="btn btn-primary mt-auto">View Recipe</a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <p>No recipes available.</p>
-        {% endfor %}
+      <input type="search" id="search-input" class="form-control ds-input" placeholder="Search..." />
+      <div class="sidebar-sticky" id="recipes-listing">
+        <div class="container mt-4">
+          <div class="row">
+        {% get_recipe_list %}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
 {% endblock %}

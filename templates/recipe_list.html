@@ -1,0 +1,18 @@
+{% for recipe in recipes %}
+    <div class="col-md-4 mb-4 d-flex align-items-stretch"> 
+        <div class="card">
+            {% if recipe.picture %}
+                <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text">{{ recipe.quick_description }}</p>
+                <a href="recipe/{{ recipe.id }}" class="btn btn-primary mt-auto">View Recipe</a>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <div class="col-md-12">
+        <p>No recipes available.</p>
+    </div>
+{% endfor %}
