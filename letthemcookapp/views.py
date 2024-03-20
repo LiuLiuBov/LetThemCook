@@ -74,3 +74,28 @@ def saved(request):
 def profile(request):
     recipes = Recipe.objects.all()
     return render(request, 'profile.html', {'recipes': recipes})
+
+def get_recipe_list(max_results=0, starts_with=''):
+    recipe_list = []
+
+    if starts_with:
+        recipe_list = Recipe.objects.filter(title__istartswith=starts_with)
+
+    if max_results > 0:
+        if len(recipe_list) > max_results:
+            recipe_list = recipe_list[:max_results]
+
+    return recipe_list
+
+def get_recipes(request):
+    if 'suggestion' in request.GET:
+        suggestion = request.GET['suggestion']
+    else:
+        suggestion = ''
+
+    category_list = get_recipe_list(max_results=8, starts_with=suggestion)
+
+    if len(category_list) == 0:
+        recipe_list = Recipe.objects.order_by('-title')
+
+    return render(request,'index.html',{'recipes': recipe_list})
