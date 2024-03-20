@@ -113,11 +113,11 @@ def create_review(request, recipe_id):
             review = Review(recipe=Recipe.objects.get(id=recipe_id), user=request.user, rating=form.cleaned_data["rating"])
             review.comment = form.cleaned_data["comment"]
             review.save()
-            return redirect('index')
+            return redirect('recipe', recipe_id=recipe_id)
     else:
         form = ReviewForm()
     
-    return redirect('index')
+    return redirect('recipe', recipe_id=recipe_id)
 
 @login_required
 def save_recipe(request, recipe_id):
