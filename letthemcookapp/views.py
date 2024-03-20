@@ -1,4 +1,4 @@
-from django.shortcuts import redirect,render
+from django.shortcuts import get_object_or_404, redirect,render
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import numpy as np
 
-from .models import Review, User, Recipe
+from .models import Review, Save, User, Recipe
 from .forms import RecipeForm,ReviewForm
 
 def index_view(request):
@@ -40,23 +40,32 @@ def recipe(request, recipe_id):
     context_dict = {}
 
     try:
-        recipe = Recipe.objects.get(id=recipe_id)
-        context_dict['recipe'] = recipe
-        context_dict['ingredients'] = recipe.ingredients.split('\n')
+        recipe_obj = Recipe.objects.get(id=recipe_id)
+        context_dict['recipe'] = recipe_obj
+        context_dict['ingredients'] = recipe_obj.ingredients.split('\n')
         context_dict['form'] = ReviewForm()
 
         reviews = Review.objects.filter(recipe=recipe_id)
         context_dict['reviews'] = reviews
 
-        sum = np.sum(review.rating for review in reviews)
-        mean = round(sum / len(reviews),2)
-        context_dict['average'] = mean
+        if request.user.is_authenticated:
+            is_saved = Save.objects.filter(user=request.user, recipe=recipe_obj).exists()
+        else:
+            is_saved = False
+        context_dict['is_saved'] = is_saved
+
+        if reviews:
+            avg_rating = np.mean([review.rating for review in reviews])
+            context_dict['average'] = round(avg_rating, 2)
+        else:
+            context_dict['average'] = "No reviews yet"
 
     except Recipe.DoesNotExist:
         context_dict['recipe'] = None
-        return redirect(reverse('letthemcook:index'))
+        return redirect(reverse('index'))
 
     return render(request, 'recipe.html', context=context_dict)
+
 
 def register(request):
     if request.method == "POST":
@@ -110,10 +119,23 @@ def create_review(request, recipe_id):
     
     return redirect('index')
 
-def saved(request):
-    recipes = Recipe.objects.all()
-    return render(request, 'saved.html', {'recipes': recipes})
+@login_required
+def save_recipe(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    saved_instance, created = Save.objects.get_or_create(user=request.user, recipe=recipe)
+    if not created:
+        saved_instance.delete()
+    return redirect('recipe', recipe_id=recipe_id)
 
+
+@login_required
+def saved(request):
+    user = request.user
+    saved_recipes = Recipe.objects.filter(save__user=user).distinct()
+    return render(request, 'saved.html', {'saved_recipes': saved_recipes})
+
+
+@login_required
 def profile(request):
     recipes = Recipe.objects.all()
     return render(request, 'profile.html', {'recipes': recipes})
