@@ -102,6 +102,11 @@ label {
   font-weight: bold;
 }
 
+.recipe-image{
+  object-fit:fill;
+  margin: 5px;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
