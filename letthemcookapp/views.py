@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+import numpy as np
 
 from .models import Review, User, Recipe
 from .forms import RecipeForm,ReviewForm
@@ -34,6 +35,28 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
+
+def recipe(request, recipe_id):
+    context_dict = {}
+
+    try:
+        recipe = Recipe.objects.get(id=recipe_id)
+        context_dict['recipe'] = recipe
+        context_dict['ingredients'] = recipe.ingredients.split('\n')
+        context_dict['form'] = ReviewForm()
+
+        reviews = Review.objects.filter(recipe=recipe_id)
+        context_dict['reviews'] = reviews
+
+        sum = np.sum(review.rating for review in reviews)
+        mean = round(sum / len(reviews),2)
+        context_dict['average'] = mean
+
+    except Recipe.DoesNotExist:
+        context_dict['recipe'] = None
+        return redirect(reverse('letthemcook:index'))
+
+    return render(request, 'recipe.html', context=context_dict)
 
 def register(request):
     if request.method == "POST":
