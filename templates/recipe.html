@@ -1,17 +1,20 @@
 {% extends 'layout.html' %}
 
 {% block body%}
-<h2> {{  recipe.title }} </h2>
 <div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
     <div class="card" style="column-width:100px">
+        <div>
+            <h2> {{  recipe.title }} </h2>
+            <h5 align="center">By
+            <a href="profile/{{recipe.user}}">
+                {{recipe.user}}
+            </a>
+            </h5>
+        </div>
         <div class="recipe-image"> 
             {% if recipe.picture %}
                 <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}" style="width:500px; height:auto; padding:20px">
             {% endif %}
-        </div>
-        <div class="recipe-description" style="padding:20px">
-            <h5 class="card-title">{{ recipe.title }}</h5>
-            <p class="card-text">{{ recipe.quick_description }}</p>
         </div>
 
         <div class="buttons" style="padding:20px">
@@ -21,17 +24,27 @@
     </div>
 
     <div class="recipe-core" style="column-width:400px; padding:20px">
-        <h5>Ingredients:</h3>    
+        <h5 class="card-title">{{ recipe.title }}</h5>
+        <div class="card" style="padding:20px">
+            <p class="card-text">{{ recipe.quick_description }}</p>
+        </div>
+        <h5>Ingredients:</h3>
+        <div class="card" style="padding:20px">
         {% for ingredient in ingredients %}
             <li>{{ingredient}}</li>
         {% endfor %}
+        </div>
         <h5>Instructions:</h3>
-        <p class="recipe-content" style="grid-template-columns: fit-content(80%)"> {{recipe.content}} </p>
+        
+        <div class="card" style="padding:20px">
+            <p class="recipe-content" style="grid-template-columns: fit-content(80%)"> {{recipe.content}} </p>
+        </div>
     </div>
 
     <div id="reviews" style="padding:10px">
         <h5 id="average-raring">Average Rating: {{average}}</h5>
         <h5 id="reviews-title">Reviews:</h5>
+        <div class="card" style="padding:20px">
         {% for review in reviews %}
             <div>
                 <h4>{{review.user.username}}</h4>
@@ -39,13 +52,14 @@
                 <p>{{review.comment}}</p>
             </div>
         {% endfor %}
+        </div>
         <div id="create-review" style="border-color:solid lightgray; padding: 3px;">
             <h5 class="add-reviews-title">Leave Your Own Review:</h5>
             {% if user.is_authenticated %}
                 <form action="create_review/" method="post">
                     {% csrf_token %}
                     {{ form }}
-                    <button type="submit" style="background-color:gray; border-color:gray">Save Review</button>
+                    <button type="submit" style="background-color:red; border-color:red">Post Review</button>
                 </form>
             {% endif %}
         </div>

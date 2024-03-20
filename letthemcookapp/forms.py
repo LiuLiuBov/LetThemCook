@@ -13,6 +13,7 @@ class RecipeForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+    
     rating = forms.IntegerField()
     comment = forms.CharField()
     class Meta:
