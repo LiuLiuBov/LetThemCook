@@ -2,16 +2,25 @@
 
 {% block body%}
 <h2> {{  recipe.title }} </h2>
-<div style="display:inline-flex; grid-template-columns: 2fr 1fr;">
-    <div class="recipe-image"> 
-    {% if recipe.picture %}
-        <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}" style="object-fit:contain">
-    {% endif %}
+<div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
+    <div class="card" style="column-width:100px">
+        <div class="recipe-image"> 
+            {% if recipe.picture %}
+                <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}" style="width:500px; height:auto; padding:20px">
+            {% endif %}
+        </div>
+        <div class="recipe-description" style="padding:20px">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+            <p class="card-text">{{ recipe.quick_description }}</p>
+        </div>
+
+        <div class="buttons" style="padding:20px">
+            <a href="profile/{{recipe.user}}"class="btn btn-primary mt-auto" style="background-color:gray; border-color:gray;">View {{recipe.user}}</a>
+            <a href="recipe/{{recipe.id}}" class="btn btn-primary mt-auto" style="background-color:gray; border-color:gray;">Save Recipe</a>
+        </div>
     </div>
 
-    <div class="recipe-core">
-        <h5 class="card-title">{{ recipe.title }}</h5>
-        <p class="card-text">{{ recipe.quick_description }}</p>
+    <div class="recipe-core" style="column-width:400px; padding:20px">
         <h5>Ingredients:</h3>    
         {% for ingredient in ingredients %}
             <li>{{ingredient}}</li>
@@ -30,21 +39,16 @@
                 <p>{{review.comment}}</p>
             </div>
         {% endfor %}
-        <div id="create-review" style="border-style: groove; border-color:light-gray; padding: 3px;">
+        <div id="create-review" style="border-color:solid lightgray; padding: 3px;">
             <h5 class="add-reviews-title">Leave Your Own Review:</h5>
             {% if user.is_authenticated %}
                 <form action="create_review/" method="post">
                     {% csrf_token %}
                     {{ form }}
-                    <button type="submit">Save Review</button>
+                    <button type="submit" style="background-color:gray; border-color:gray">Save Review</button>
                 </form>
             {% endif %}
         </div>
     </div>
-</div>
-
-<div class="buttons">
-    <a href="profile/{{recipe.user}}"class="btn btn-primary mt-auto">View {{recipe.user}}</a>
-    <a href="recipe/{{recipe.id}}" class="btn btn-primary mt-auto">Save Recipe</a>
 </div>
 {% endblock %}

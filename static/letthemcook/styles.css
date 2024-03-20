@@ -104,7 +104,8 @@ label {
 
 .recipe-image{
   object-fit:fill;
-  margin: 5px;
+  margin: 20px;
+  border-color: lightgrey;
 }
 
 input[type="text"],
