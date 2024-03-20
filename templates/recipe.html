@@ -1,17 +1,26 @@
-{% extends 'letthemcook/layout.html' %}
+{% extends 'layout.html' %}
 
 {% block body%}
 <h2> {{  recipe.title }} </h2>
-<div style="display:inline-flex; grid-template-columns: 2fr 1fr;">
-    <div class="col-md-4 mb-4 d-flex align-items-stretch"> 
-        {% if recipe.picture %}
-        <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}" sizes="(max-width)">
-        {% endif %}
+<div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
+    <div class="card" style="column-width:100px">
+        <div class="recipe-image"> 
+            {% if recipe.picture %}
+                <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}" style="width:500px; height:auto; padding:20px">
+            {% endif %}
+        </div>
+        <div class="recipe-description" style="padding:20px">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+            <p class="card-text">{{ recipe.quick_description }}</p>
+        </div>
+
+        <div class="buttons" style="padding:20px">
+            <a href="profile/{{recipe.user}}"class="btn btn-primary mt-auto" style="background-color:gray; border-color:gray;">View {{recipe.user}}</a>
+            <a href="recipe/{{recipe.id}}" class="btn btn-primary mt-auto" style="background-color:gray; border-color:gray;">Save Recipe</a>
+        </div>
     </div>
 
-    <div class="recipe-core">
-        <h5 class="card-title">{{ recipe.title }}</h5>
-        <p class="card-text">{{ recipe.quick_description }}</p>
+    <div class="recipe-core" style="column-width:400px; padding:20px">
         <h5>Ingredients:</h3>    
         {% for ingredient in ingredients %}
             <li>{{ingredient}}</li>
@@ -21,6 +30,7 @@
     </div>
 
     <div id="reviews" style="padding:10px">
+        <h5 id="average-raring">Average Rating: {{average}}</h5>
         <h5 id="reviews-title">Reviews:</h5>
         {% for review in reviews %}
             <div>
@@ -29,32 +39,16 @@
                 <p>{{review.comment}}</p>
             </div>
         {% endfor %}
-        <div id="create-review" style="border-style: groove; border-color:light-gray; padding: 3px;">
+        <div id="create-review" style="border-color:solid lightgray; padding: 3px;">
             <h5 class="add-reviews-title">Leave Your Own Review:</h5>
-            <h6>Rating: </h6>
-            <!---
             {% if user.is_authenticated %}
-                <form id="review_form" method="post" action="{% url 'create_review' %}">
+                <form action="create_review/" method="post">
                     {% csrf_token %}
-                    <input type="number" list="ratings" name="rating" min="0" max="5" step="1"/>
-                    <datalist id="ratings">
-                        <option value="0">
-                        <option value="1">
-                        <option value="2">
-                        <option value="3">
-                        <option value="4">
-                        <option value="5">
-                    </datalist>
-                    <input type="text" name="review"/>
-                    <a input class="btn btn-primary" type="submit" value="submit Review">Submit Review</a>
+                    {{ form }}
+                    <button type="submit" style="background-color:gray; border-color:gray">Save Review</button>
                 </form>
-            {% endif %}-->
+            {% endif %}
         </div>
     </div>
-</div>
-
-<div class="buttons">
-    <a href="profile/{{recipe.user}}"class="btn btn-primary mt-auto">View {{recipe.user}}</a>
-    <a href="recipe/{{recipe.id}}" class="btn btn-primary mt-auto">Save Recipe</a>
 </div>
 {% endblock %}
