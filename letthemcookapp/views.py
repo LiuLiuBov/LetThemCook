@@ -4,7 +4,6 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-import numpy as np
 
 from .models import Review, User, Recipe
 from .forms import RecipeForm,ReviewForm
@@ -117,6 +116,6 @@ def get_recipes(request):
     category_list = get_recipe_list(max_results=8, starts_with=suggestion)
 
     if len(category_list) == 0:
-        recipe_list = Recipe.objects.order_by('-title')
+        recipe_list = Recipe.objects.order_by('title')
 
     return render(request,'index.html',{'recipes': recipe_list})
