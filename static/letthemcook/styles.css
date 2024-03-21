@@ -6,6 +6,10 @@ h2{
   text-align: center;
 }
 
+.card{
+  margin: 10px;
+}
+
 .listing {
   width: 500px;
   height: 400px;
