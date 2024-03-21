@@ -18,8 +18,9 @@
         </div>
 
         <div class="buttons" style="padding:20px">
-            <a href="profile/{{recipe.user}}"class="btn btn-primary mt-auto" style="background-color:gray; border-color:gray;">View {{recipe.user}}</a>
-            <a href="recipe/{{recipe.id}}" class="btn btn-primary mt-auto" style="background-color:gray; border-color:gray;">Save Recipe</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'save_recipe' recipe.id %}" class="btn btn-primary mt-auto" style="{% if is_saved %}background-color:gray;{% else %}background-color:red;{% endif %} border-color:gray;">{% if is_saved %}Saved{% else %}Save Recipe{% endif %}</a>
+            {% endif %}
         </div>
     </div>
 

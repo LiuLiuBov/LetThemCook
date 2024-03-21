@@ -1,5 +1,27 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h2>Saved Recipes</h2>
+<div class="container mt-4">
+    <h2>Saved Recipes</h2>
+    {% if saved_recipes %}
+        <div class="row">
+            {% for recipe in saved_recipes %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {% if recipe.picture %}
+                            <img src="{{ recipe.picture.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recipe.title }}</h5>
+                            <p class="card-text">{{ recipe.quick_description }}</p>
+                            <a href="{% url 'recipe' recipe.id %}" class="btn btn-primary">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You haven't saved any recipes yet.</p>
+    {% endif %}
+</div>
 {% endblock %}
