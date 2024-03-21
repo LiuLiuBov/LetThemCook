@@ -3,35 +3,35 @@
 {% block body %}
   <h2>{{username}}'s Profile</h2>
   <div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
-    <div class="card" style="display:inline-flex;padding:20px; margin:10px">
+    <div class="card" id="page-content">
         <h5>Saved Recipes:</h5>
           {%for save in saved_recipes%}
-          <div class="card" style="padding:20px">  
+          <div class="card" id="saved_recipe" style="padding:20px">  
               <a href="{% url 'recipe' save.id%}">
                 {{save.title}}
               </a>
             by {{save.user}}
-            <form action="{{save.user.id}}/{{save.id}}/delete_save" style="visibility:hidden; height:50px">
-              <button type="submit" style="background-color:red; border-color:red; height=30px width=30px; visibility:visible">Delete</button>
+            <form action="{% url 'profile' user.username recipe.id}/delete_save/>
+              <button type="submit" style="background-color:red; border-color:red; height=30px width=30px">Delete</button>
             </form>
           </div>
           {%endfor%}
     </div>
-    <div class="card" style="display:inline-flex; padding:20px; margin:10px">
-      <h5>{{username}}'s reviews</h5>
+    <div class="card" id="page-content">
+      <h5>{{username}}'s reviews:</h5>
       {% for review in user_reviews%}
-        <div class="card" style="padding:20px">  
+        <div class="card" id="saved_recipe">  
           <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}/5</h6>
           <p>{{review.comment}}</p>
           <p>{{review.created_at}}</p>
         </div>
       {%endfor%}
     </div>
-    <div class="card" style="display:inline-flex; padding:20px; margin:10px; width:500px">
-      <h5>{{username}}'s recipes</h5>
+    <div class="card" id="page-content" style="width:500px">
+      <h5>{{username}}'s recipes:</h5>
       <div>
       {% for recipe in user_recipes%}
-        <div class="card" style="padding:20px">
+        <div class="card" id="saved_recipe">
           <a href="{% url 'recipe' recipe.id%}">
             <h5>{{recipe.title}}</h5>
           </a>

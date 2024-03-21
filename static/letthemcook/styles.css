@@ -10,6 +10,35 @@ h2{
   margin: 10px;
 }
 
+.card:saved_recipe{
+  padding:20px;
+}
+
+.card:page-content{
+  padding:20px;
+  display:inline-flex;
+  flex-direction: column;
+}
+
+.card{
+  padding: 20px;
+  margin: 10px;
+  background-color:white;
+}
+
+.card-profile{
+  display:inline-flex;
+  padding:20px;
+  margin:10px
+}
+
+.page-profile{
+  display:inline-flex;
+  grid-template-columns: 3fr 3fr;
+  columns:3;
+  flex-direction:column;
+}
+
 .listing {
   width: 500px;
   height: 400px;
@@ -98,6 +127,23 @@ form {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   margin: 20px auto;
+}
+
+.delete-form{
+  visibility:hidden;
+  height:50px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 100px;
+  margin: 20px auto;
+}
+
+.delete-button{
+  background-color:red;
+  border-color:red;
+  visibility:visible
 }
 
 label {

@@ -58,8 +58,7 @@ def recipe(request, recipe_id):
         context_dict['is_saved'] = is_saved
 
         if reviews:
-            avg_rating = np.mean([review.rating for review in reviews])
-            context_dict['average'] = round(avg_rating, 2)
+            context_dict['average'] = round(recipe_obj.average_rating, 2)
         else:
             context_dict['average'] = "No reviews yet"
 
@@ -73,11 +72,13 @@ def delete_recipe(request, recipe_id):
     Recipe.objects.delete(id=recipe_id)
     return render(reverse('index'))   
 
-def delete_save(request, user_id, recipe_id):
+@login_required
+def delete_save(user_id, recipe_id):
+    print("deleting")
     recipe = Recipe.objects.get(id=recipe_id)
     user = get_object_or_404(User, id=user_id)
-    Save.objects.filter(user=user).delete()
-    print("here")
+    saves = Save.objects.filter(user=user, recipe=recipe).delete()
+    print(saves)
 
     return redirect(reverse('index'))
 
