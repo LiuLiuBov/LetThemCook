@@ -124,6 +124,7 @@ def create_review(request, recipe_id):
             review = Review(recipe=Recipe.objects.get(id=recipe_id), user=request.user, rating=form.cleaned_data["rating"])
             review.comment = form.cleaned_data["comment"]
             review.save()
+            recipe.update_average()
             return redirect('recipe', recipe_id=recipe_id)
     else:
         form = ReviewForm()
@@ -134,6 +135,7 @@ def create_review(request, recipe_id):
 def save_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     saved_instance, created = Save.objects.get_or_create(user=request.user, recipe=recipe)
+    recipe.saves += 1
     if not created:
         saved_instance.delete()
     return redirect('recipe', recipe_id=recipe_id)

@@ -12,7 +12,7 @@ urlpatterns = [
     path("profile/<str:username>", views.profile, name="profile"),
     path("recipe/<int:recipe_id>/", views.recipe, name="recipe"),
     path("recipe/<int:recipe_id>/save/", views.save_recipe, name="save_recipe"),
-    path("recipe/<int:recipe_id/delete_recipe", views.delete_recipe,name="delete_recipe"),
+    path("recipe/<int:recipe_id>/delete_recipe", views.delete_recipe,name="delete_recipe"),
     path("profile/<int:user_id>/<int:recipe_id>/delete_save", views.delete_save, name="delete_save"),
     #No recipe view so code crashes
     path("recipe/<int:recipe_id>/create_review/", views.create_review, name="create_review"),
