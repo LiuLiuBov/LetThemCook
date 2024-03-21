@@ -44,6 +44,7 @@ def recipe(request, recipe_id):
         context_dict['recipe'] = recipe_obj
         context_dict['ingredients'] = recipe_obj.ingredients.split('\n')
         context_dict['form'] = ReviewForm()
+        context_dict['creator'] = recipe_obj.user
 
         reviews = Review.objects.filter(recipe=recipe_id)
         context_dict['reviews'] = reviews
@@ -66,6 +67,17 @@ def recipe(request, recipe_id):
 
     return render(request, 'recipe.html', context=context_dict)
 
+def delete_recipe(request, recipe_id):
+    Recipe.objects.delete(id=recipe_id)
+    return render(reverse('index'))   
+
+def delete_save(request, user_id, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    user = get_object_or_404(User, id=user_id)
+    Save.objects.filter(user=user).delete()
+    print("here")
+
+    return redirect(reverse('index'))
 
 def register(request):
     if request.method == "POST":
@@ -131,11 +143,11 @@ def saved(request):
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()
     return render(request, 'saved.html', {'saved_recipes': saved_recipes})
 
-def profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
     user_recipes = Recipe.objects.filter(user=user)
     user_reviews = Review.objects.filter(user=user).order_by('-created_at')
-    saved_recipes = Save.objects.filter(user=user)
+    saved_recipes = Recipe.objects.filter(save__user=user).distinct()
     
     return render(request, 'profile.html', {'username': user.username,
         'user_recipes': user_recipes,
