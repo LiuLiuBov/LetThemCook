@@ -1,5 +1,37 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h2>My Profile</h2>
+  <h2>{{username}}'s Profile</h2>
+  <div style="display:inline-flex; grid-template-columns: 2fr 2fr;">
+    <div style="column-width:100px; padding:20px">
+    <div class="card" style="padding:20px">
+      <h5>Saved Recipes:</h5>
+      <div>
+      {%for save in user_saved%}
+        <a href="{% url 'lethemcook:recipe' save.recipe.id%}">
+          <li>{{save.recipe.title}}</li>
+        </a>
+      {%endfor%}
+      </div>
+    </div>
+    <div class="card" style="padding:20px">
+      <h5>{{username}}'s recipes</h5>
+      <div>
+      {% for recipe in user_recipes%}
+        <a href="{% url 'recipe' recipe.id%}">
+          <li>{{recipe.title}}</li>
+        </a>
+      {%endfor%}
+      </div>
+    </div>
+  </div>
+
+    <div class="card">
+      <h5>{{username}}'s reviews</h5>
+      {% for review in user_reviews%}
+        <h6>{{review.recipe.title}}: {{review.rating}}/5</h6>
+        <p>{{review.comment}}</p>
+        <p>{{review.created_at}}</p>
+      {%endfor%}
+  </div>
 {% endblock %}

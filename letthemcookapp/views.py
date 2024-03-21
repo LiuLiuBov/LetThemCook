@@ -1,4 +1,4 @@
-from django.shortcuts import redirect,render
+from django.shortcuts import get_object_or_404, redirect,render
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import numpy as np
 
-from .models import Review, User, Recipe
+from .models import Review, Save, User, Recipe
 from .forms import RecipeForm,ReviewForm
 
 def index_view(request):
@@ -97,7 +97,6 @@ def createrecipe(request):
 
 @login_required
 def create_review(request, recipe_id):
-    print(recipe_id)
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
@@ -110,13 +109,27 @@ def create_review(request, recipe_id):
     
     return redirect('index')
 
+def save_review(request, review_id):
+    save = Save(user= request.user, review = Review.objects.get(id=review_id))
+    save.save()
+    recipes = Recipe.objects.all()
+    return render(request, 'saved.html', {'recipes': recipes})
+
 def saved(request):
     recipes = Recipe.objects.all()
     return render(request, 'saved.html', {'recipes': recipes})
 
-def profile(request):
-    recipes = Recipe.objects.all()
-    return render(request, 'profile.html', {'recipes': recipes})
+def profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user_recipes = Recipe.objects.filter(user=user)
+    user_reviews = Review.objects.filter(user=user).order_by('-created_at')
+    saved_recipes = Save.objects.filter(user=user)
+    
+    return render(request, 'profile.html', {'username': user.username,
+        'user_recipes': user_recipes,
+        'user_reviews': user_reviews,
+        'saved_recipes' : saved_recipes
+    })
 
 def get_recipe_list(max_results=0, starts_with=''):
     recipe_list = []

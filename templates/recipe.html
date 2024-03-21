@@ -4,7 +4,7 @@
 <div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
     <div class="card" style="column-width:100px">
         <div>
-            <h2> {{  recipe.title }} </h2>
+            <h2 style="padding:20px"> {{  recipe.title }} </h2>
             <h5 align="center">By
             <a href="profile/{{recipe.user}}">
                 {{recipe.user}}
@@ -29,7 +29,7 @@
             <p class="card-text">{{ recipe.quick_description }}</p>
         </div>
         <h5>Ingredients:</h3>
-        <div class="card" style="padding:20px">
+        <div class="card" style="padding:20px;">
         {% for ingredient in ingredients %}
             <li>{{ingredient}}</li>
         {% endfor %}
@@ -53,8 +53,8 @@
             </div>
         {% endfor %}
         </div>
-        <div id="create-review" style="border-color:solid lightgray; padding: 3px;">
-            <h5 class="add-reviews-title">Leave Your Own Review:</h5>
+        <h5 class="add-reviews-title">Leave Your Own Review:</h5>
+        <div class="card" id="create-review" style="border-color:solid lightgray; padding: 3px;">
             {% if user.is_authenticated %}
                 <form action="create_review/" method="post">
                     {% csrf_token %}
