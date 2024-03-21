@@ -72,15 +72,6 @@ def delete_recipe(request, recipe_id):
     Recipe.objects.delete(id=recipe_id)
     return render(reverse('index'))   
 
-@login_required
-def delete_save(user_id, recipe_id):
-    print("deleting")
-    recipe = Recipe.objects.get(id=recipe_id)
-    user = get_object_or_404(User, id=user_id)
-    saves = Save.objects.filter(user=user, recipe=recipe).delete()
-    print(saves)
-
-    return redirect(reverse('index'))
 
 def register(request):
     if request.method == "POST":
