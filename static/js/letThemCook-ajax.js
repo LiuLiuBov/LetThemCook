@@ -4,7 +4,7 @@ $(document).ready(function() {
         var query;
         query = $(this).val();
 
-        $.get('/letthemcook/suggest/',
+        $.get('suggest/',
             {'suggestion': query},
             function(data) {
                 $('#recipes-listing').html(data);

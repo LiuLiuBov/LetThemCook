@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views import View
 import numpy as np
 
 from .models import Review, Save, User, Recipe
@@ -29,7 +30,6 @@ def login_view(request):
             })
     else:
         return render(request, "login.html")
-
 
 def logout_view(request):
     logout(request)
@@ -143,6 +143,21 @@ def profile(request, user_id):
         'saved_recipes' : saved_recipes
     })
 
+class RecipeSuggestionView(View):
+    def get(self, request):
+        if 'suggestion' in request.GET:
+            suggestion = request.GET['suggestion']
+        else:
+            suggestion = ''
+
+        recipe_list = get_recipe_list(max_results=8,
+                starts_with=suggestion)
+        
+        if len(recipe_list) == 0:
+            recipe_list = Recipe.objects.order_by('title')
+
+        return render(request,'recipe_list.html',{'recipes': recipe_list})
+
 def get_recipe_list(max_results=0, starts_with=''):
     recipe_list = []
 
@@ -154,16 +169,3 @@ def get_recipe_list(max_results=0, starts_with=''):
             recipe_list = recipe_list[:max_results]
 
     return recipe_list
-
-def get_recipes(request):
-    if 'suggestion' in request.GET:
-        suggestion = request.GET['suggestion']
-    else:
-        suggestion = ''
-
-    category_list = get_recipe_list(max_results=8, starts_with=suggestion)
-
-    if len(category_list) == 0:
-        recipe_list = Recipe.objects.order_by('title')
-
-    return render(request,'index.html',{'recipes': recipe_list})

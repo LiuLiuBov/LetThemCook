@@ -1,6 +1,8 @@
+<div class="row">
 {% for recipe in recipes %}
     <div class="col-md-4 mb-4 d-flex align-items-stretch"> 
         <div class="card">
+            <div class="container mt-4">
             {% if recipe.picture %}
                 <img src="{{ recipe.picture.url }}" class="card-img-top img-fluid" alt="{{ recipe.title }}">
             {% endif %}
@@ -11,8 +13,10 @@
             </div>
         </div>
     </div>
+    </div>
 {% empty %}
     <div class="col-md-12">
         <p>No recipes available.</p>
     </div>
+</div>
 {% endfor %}
