@@ -41,6 +41,8 @@ def recipe(request, recipe_id):
 
     try:
         recipe_obj = Recipe.objects.get(id=recipe_id)
+        recipe_obj.update_average()
+        recipe_obj.update_saves()
         context_dict['recipe'] = recipe_obj
         context_dict['ingredients'] = recipe_obj.ingredients.split('\n')
         context_dict['form'] = ReviewForm()
@@ -135,7 +137,7 @@ def create_review(request, recipe_id):
 def save_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     saved_instance, created = Save.objects.get_or_create(user=request.user, recipe=recipe)
-    recipe.saves += 1
+    recipe.update_saves()
     if not created:
         saved_instance.delete()
     return redirect('recipe', recipe_id=recipe_id)

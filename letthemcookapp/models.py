@@ -10,13 +10,20 @@ class Recipe(models.Model):
     content = models.TextField()
     ingredients = models.TextField(help_text="List each ingredient on a new line.")
     saves = models.IntegerField(default=0)
-    average_rating = models.IntegerField(default=0)
+    average_rating = models.FloatField(default=0)
     picture = models.ImageField(upload_to='', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes')
 
     def update_average(self):
-        reviews = Review.object.filter(recipe=self)
+        print("updating average")
+        reviews = Review.objects.filter(recipe=self)
         self.average_rating = np.mean([review.rating for review in reviews])
+        self.save()
+    
+    def update_saves(self):
+        saves = Save.objects.filter(recipe=self)
+        self.saves = len(saves)
+        self.save()
 
     def __str__(self):
         return self.title
