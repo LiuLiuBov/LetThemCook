@@ -17,7 +17,10 @@ class Recipe(models.Model):
     def update_average(self):
         print("updating average")
         reviews = Review.objects.filter(recipe=self)
-        self.average_rating = np.mean([review.rating for review in reviews])
+        if reviews.exists():
+            self.average_rating = np.mean([review.rating for review in reviews])
+        else:
+            self.average_rating=0
         self.save()
     
     def update_saves(self):
