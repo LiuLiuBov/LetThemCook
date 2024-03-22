@@ -13,9 +13,17 @@ class RecipeForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    
-    rating = forms.IntegerField()
-    comment = forms.CharField()
+    RATING_CHOICES = [
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    ]
+    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select)
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}))
+
     class Meta:
         model = Review
         fields = ('rating', 'comment')
+
