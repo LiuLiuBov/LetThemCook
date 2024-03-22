@@ -137,6 +137,11 @@ def create_review(request, recipe_id):
     return redirect('recipe', recipe_id=recipe_id)
 
 @login_required
+def delete_review(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+        
+
+@login_required
 def save_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     saved_instance, created = Save.objects.get_or_create(user=request.user, recipe=recipe)
@@ -144,6 +149,7 @@ def save_recipe(request, recipe_id):
     if not created:
         saved_instance.delete()
     return redirect('recipe', recipe_id=recipe_id)
+
 
 def delete_save(request, recipe_id):
     recipe= get_object_or_404(Recipe, id=recipe_id)
