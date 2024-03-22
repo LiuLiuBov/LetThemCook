@@ -18,7 +18,7 @@
       <h5>{{username}}'s Reviews:</h5>
       {% for review in user_reviews%}
         <div class="card" id="saved_recipe">  
-          <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}/5</h6>
+          <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}★</h6>
           <p>{{review.comment}}</p>
           <p>{{review.created_at}}</p>
           <form action="{% url 'recipe' review.recipe.id%}{{review.user.username}}/delete_review" id="delete-button">
