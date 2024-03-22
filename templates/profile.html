@@ -3,7 +3,7 @@
 {% block body %}
   <h2>{{username}}'s Profile</h2>
   <div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
-    <div class="card" id="page-content">
+    <div class="column" id="page-content">
         <h5>Saved Recipes:</h5>
           {%for save in saved_recipes%}
           <div class="card" id="saved_recipe" style="padding:20px">  
@@ -17,7 +17,7 @@
           </div>
           {%endfor%}
     </div>
-    <div class="card" id="page-content">
+    <div class="column" id="page-content">
       <h5>{{username}}'s reviews:</h5>
       {% for review in user_reviews%}
         <div class="card" id="saved_recipe">  
@@ -27,7 +27,7 @@
         </div>
       {%endfor%}
     </div>
-    <div class="card" id="page-content" style="width:500px">
+    <div class="column" id="page-content" style="width:500px">
       <h5>{{username}}'s recipes:</h5>
       <div>
       {% for recipe in user_recipes%}

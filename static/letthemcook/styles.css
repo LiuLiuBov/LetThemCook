@@ -8,7 +8,6 @@ h2{
 
 .card{
   margin: 10px;
-  height: 400px;
   width: 350px;
   padding: 20px;
   margin: 10px;
@@ -193,11 +192,29 @@ button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
-button[type="submit"]:delete {
+#delete {
   background-color:red;
   border-color:red;
   height:30px;
   width:30px;
+}
+
+#left-column{
+  column-width:100px;
+  padding:20px;
+}
+
+#centre-column{
+  column-width:400px; 
+  padding:20px
+}
+
+#recipe-title{
+  padding:20px;
+}
+
+#page-content{
+  column-width:400px;
 }
 
 @media (max-width: 768px) {
