@@ -144,8 +144,6 @@ button[type="submit"]:hover, #post-button:hover, #delete:hover {
   padding: 20px;
 }
 
-
-
 #delete-button {
   padding: 0px;
   display: inline-flex;
@@ -153,7 +151,9 @@ button[type="submit"]:hover, #post-button:hover, #delete:hover {
 }
 
 #reviews-card {
-  max-height: 200px;
-  overflow-y: scroll;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 0 auto;
   padding: 20px;
 }
