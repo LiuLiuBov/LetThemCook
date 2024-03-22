@@ -194,22 +194,29 @@ button[type="submit"]:hover {
   align: right;
 }
 
-#left-column{
-  column-width:100px;
-  padding:20px;
+#left-column,
+#centre-column,
+#right-column{
+  padding: 20px
+}
+
+#left-column,
+#right-column{
+  flex-basis: 300px;
 }
 
 #centre-column{
-  column-width:500px; 
-  padding:20px
+  flex-grow: 1;
 }
 
 #recipe-title{
   padding:20px;
+  color: blue;
+  font-weight: bold;
 }
 
 #recipe-card{
-  width:500px
+  width:100%
 }
 
 #alert{
