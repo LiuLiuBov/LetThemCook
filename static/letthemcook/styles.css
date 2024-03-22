@@ -131,21 +131,10 @@ form {
   margin: 20px auto;
 }
 
-.delete-form{
-  visibility:hidden;
-  height:50px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 100px;
-  margin: 20px auto;
-}
 
-.delete-button{
-  background-color:red;
-  border-color:red;
-  visibility:visible
+#delete-button{
+  padding:0px;
+  display:inline-flex;
 }
 
 label {
@@ -195,8 +184,9 @@ button[type="submit"]:hover {
 #delete {
   background-color:red;
   border-color:red;
-  height:30px;
-  width:30px;
+  height:40px;
+  width:80px;
+  align: right;
 }
 
 #left-column{
@@ -205,7 +195,7 @@ button[type="submit"]:hover {
 }
 
 #centre-column{
-  column-width:400px; 
+  column-width:500px; 
   padding:20px
 }
 
@@ -213,8 +203,17 @@ button[type="submit"]:hover {
   padding:20px;
 }
 
+#recipe-card{
+  width:500px
+}
+
 #page-content{
   column-width:400px;
+  background-color: white;
+}
+
+#saved-recipe{
+  height:50px;
 }
 
 @media (max-width: 768px) {

@@ -6,12 +6,12 @@
     <div class="column" id="page-content">
         <h5>Saved Recipes:</h5>
           {%for save in saved_recipes%}
-          <div class="card" id="saved_recipe" style="padding:20px">  
-              <a href="{% url 'recipe' save.id%}">
-                {{save.title}}
-              </a>
+          <div class="card" id="saved_recipe">  
+            <a href="{% url 'recipe' save.id%}">
+              {{save.title}}
+            </a>
             by {{save.user}}
-            <form action="{% url 'recipe' save.id%}delete_save">
+            <form action="{% url 'recipe' save.id%}delete_save" id="delete-button">
               <button type="submit" id="delete">Delete</button>
             </form>
           </div>
