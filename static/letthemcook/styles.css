@@ -212,6 +212,10 @@ button[type="submit"]:hover {
   width:500px
 }
 
+#alert{
+  color:red;
+}
+
 #recipe-content{
   grid-template-columns: fit-content(80%);
 }
