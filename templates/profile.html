@@ -10,7 +10,7 @@
             <a href="{% url 'recipe' save.id%}">
               {{save.title}}
             </a>
-            by {{save.user}}
+            by <a href={%url 'profile' save.user%}>{{save.user}}</a>
           </div>
           {%endfor%}
     </div>
@@ -21,6 +21,9 @@
           <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}/5</h6>
           <p>{{review.comment}}</p>
           <p>{{review.created_at}}</p>
+          <form action="{% url 'recipe' review.recipe.id%}{{review.user.username}}/delete_review" id="delete-button">
+            <button type="submit" id="delete">Delete</button>
+          </form>
         </div>
       {%endfor%}
     </div>

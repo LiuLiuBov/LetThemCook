@@ -150,6 +150,15 @@ def create_review(request, recipe_id):
     return redirect('recipe', recipe_id=recipe_id)
 
 @login_required
+def delete_review(request, recipe_id, username):
+    if username == request.user.username:
+        review = Review.objects.get(recipe=Recipe.objects.get(id=recipe_id), user=request.user)
+        review.delete()
+    
+    return redirect('profile', username)
+        
+
+@login_required
 def save_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     saved_instance, created = Save.objects.get_or_create(user=request.user, recipe=recipe)
@@ -158,7 +167,14 @@ def save_recipe(request, recipe_id):
         saved_instance.delete()
     return redirect('recipe', recipe_id=recipe_id)
 
-@login_required
+
+def delete_save(request, recipe_id):
+    recipe= get_object_or_404(Recipe, id=recipe_id)
+    saved_instance = Save.objects.get(user=request.user, recipe=recipe)
+    saved_instance.delete()
+    
+    return redirect('profile', request.user.username)
+
 def saved(request):
     user = request.user
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()
