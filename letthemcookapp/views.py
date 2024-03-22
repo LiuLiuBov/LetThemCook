@@ -122,7 +122,6 @@ def createrecipe(request):
 def create_review(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     
-    # Check if the recipe belongs to the logged-in user
     if recipe.user == request.user:
         messages.error(request, "You cannot review your own recipe.")
         return redirect('recipe', recipe_id=recipe_id)
