@@ -73,7 +73,7 @@ def recipe(request, recipe_id):
 @login_required
 def delete_recipe(request, recipe_id):
     Recipe.objects.get(id=recipe_id).delete()
-    return render(reverse('index'))   
+    return redirect('index') 
 
 
 def register(request):
