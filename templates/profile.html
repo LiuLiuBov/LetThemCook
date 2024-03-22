@@ -3,6 +3,7 @@
 {% block body %}
   <h2>{{username}}'s Profile</h2>
   <div id="profile-page">
+    {% if is_user_profile %}
     <div class="column" id="page-content">
         <h5>Saved Recipes:</h5>
           {%for save in saved_recipes%}
@@ -14,6 +15,7 @@
           </div>
           {%endfor%}
     </div>
+    {% endif %}
     <div class="column" id="page-content">
       <h5>{{username}}'s Reviews:</h5>
       {% for review in user_reviews%}
@@ -36,9 +38,11 @@
             <h5>{{recipe.title}}</h5>
           </a>
           {{recipe.quick_description}}
+          {% if is_user_profile %}
           <form action="{% url 'recipe' recipe.id%}delete_recipe" id="delete-button">
             <button type="submit" id="delete">Delete</button>
           </form>
+          {%endif%}
         </div>
       {%endfor%}
       </div>

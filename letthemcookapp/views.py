@@ -191,12 +191,15 @@ def profile(request, username):
     user_recipes = Recipe.objects.filter(user=user)
     user_reviews = Review.objects.filter(user=user).order_by('-created_at')
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()
+    user_profile = get_object_or_404(User, username=username)
+    is_user_profile = request.user == user_profile 
     
     return render(request, 'profile.html', {
         'username': user.username,
         'user_recipes': user_recipes,
         'user_reviews': user_reviews,
-        'saved_recipes': saved_recipes
+        'saved_recipes': saved_recipes,
+        'is_user_profile': is_user_profile
     })
 
 class RecipeSuggestionView(View):
