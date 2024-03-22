@@ -54,6 +54,11 @@ h2 {
   justify-content: space-between;
 }
 
+.w-75{
+  flex-grow: 1;
+  margin-left: 0;
+}
+
 .card {
   background-color: #ffffff;
   margin: 10px;
@@ -144,7 +149,9 @@ button[type="submit"]:hover, #post-button:hover, #delete:hover {
   padding: 20px;
 }
 
-
+#recipe-listing{
+  width: 100%;
+}
 
 #delete-button {
   padding: 0px;
