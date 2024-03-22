@@ -11,9 +11,6 @@
               {{save.title}}
             </a>
             by <a href={%url 'profile' save.user%}>{{save.user}}</a>
-            <form action="{% url 'recipe' save.id%}delete_save" id="delete-button">
-              <button type="submit" id="delete">Delete</button>
-            </form>
           </div>
           {%endfor%}
     </div>

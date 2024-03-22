@@ -151,8 +151,12 @@ def create_review(request, recipe_id):
     return redirect('recipe', recipe_id=recipe_id)
 
 @login_required
-def delete_review(request, recipe_id):
-    recipe = Recipe.objects.get(id=recipe_id)
+def delete_review(request, recipe_id, username):
+    if username == request.user.username:
+        review = Review.objects.get(recipe=Recipe.objects.get(id=recipe_id), user=request.user)
+        review.delete()
+    
+    return redirect('profile', username)
         
 
 @login_required
