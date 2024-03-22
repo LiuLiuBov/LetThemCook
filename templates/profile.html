@@ -1,11 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h2>{{username}}'s Profile</h2>
+  <h2>{{username}}'s profile</h2>
   <div id="profile-page">
     {% if is_user_profile %}
-    <div class="column" id="page-content">
-        <h5>Saved Recipes:</h5>
+    <div class="column">
+        <h5>Saved recipes:</h5>
           {%for save in saved_recipes%}
           <div class="card" id="saved_recipe">  
             <a href="{% url 'recipe' save.id%}">
@@ -16,8 +16,8 @@
           {%endfor%}
     </div>
     {% endif %}
-    <div class="column" id="page-content">
-      <h5>{{username}}'s Reviews:</h5>
+    <div class="column">
+      <h5>{{username}}'s reviews:</h5>
       {% for review in user_reviews%}
         <div class="card" id="saved_recipe">  
           <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}★</h6>
@@ -29,8 +29,8 @@
         </div>
       {%endfor%}
     </div>
-    <div class="column" id="page-content-recipe">
-      <h5>{{username}}'s Recipes:</h5>
+    <div class="column">
+      <h5>{{username}}'s recipes:</h5>
       <div>
       {% for recipe in user_recipes%}
         <div class="card" id="saved_recipe">
