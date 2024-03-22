@@ -24,21 +24,23 @@
         </div>
     </div>
 
-    <div class="card" id="centre-column" style="column-width:400px; padding:20px">
+    <div class="column" id="centre-column">
         <h5 class="card-title">{{ recipe.title }}</h5>
-        <div class="card" style="padding:20px">
+        <div class="card" id="recipe-card" style="padding:20px">
             <p class="card-text">{{ recipe.quick_description }}</p>
         </div>
         <h5>Ingredients:</h3>
-        <div class="card" style="padding:20px;">
+        <div class="card" id="recipe-card"style="padding:20px;">
         {% for ingredient in ingredients %}
             <li>{{ingredient}}</li>
         {% endfor %}
         </div>
         <h5>Instructions:</h3>
         
-        <div class="card" style="padding:20px">
-            <p class="recipe-content" style="grid-template-columns: fit-content(80%)"> {{recipe.content}} </p>
+        <div class="card" id="recipe-card" style="padding:20px">
+        {% for instruction in content%}
+            <li class="recipe-content" style="grid-template-columns: fit-content(80%)"> {{instruction}} </li>
+        {% endfor%}
         </div>
     </div>
 

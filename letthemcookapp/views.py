@@ -45,6 +45,7 @@ def recipe(request, recipe_id):
         recipe_obj.update_average()
         recipe_obj.update_saves()
         context_dict['recipe'] = recipe_obj
+        context_dict['content'] = recipe_obj.content.split('\n')
         context_dict['ingredients'] = recipe_obj.ingredients.split('\n')
         context_dict['form'] = ReviewForm()
         context_dict['creator'] = recipe_obj.user
@@ -65,7 +66,7 @@ def recipe(request, recipe_id):
 
     except Recipe.DoesNotExist:
         context_dict['recipe'] = None
-        return redirect(reverse('index'))
+        return HttpResponseRedirect(reverse('index'))
 
     return render(request, 'recipe.html', context=context_dict)
 

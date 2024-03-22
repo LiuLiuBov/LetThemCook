@@ -6,19 +6,19 @@
     <div class="column" id="page-content">
         <h5>Saved Recipes:</h5>
           {%for save in saved_recipes%}
-          <div class="card" id="saved_recipe" style="padding:20px">  
-              <a href="{% url 'recipe' save.id%}">
-                {{save.title}}
-              </a>
+          <div class="card" id="saved_recipe">  
+            <a href="{% url 'recipe' save.id%}">
+              {{save.title}}
+            </a>
             by {{save.user}}
-            <form action="{% url 'recipe' save.id%}delete_save">
+            <form action="{% url 'recipe' save.id%}delete_save" id="delete-button">
               <button type="submit" id="delete">Delete</button>
             </form>
           </div>
           {%endfor%}
     </div>
     <div class="column" id="page-content">
-      <h5>{{username}}'s reviews:</h5>
+      <h5>{{username}}'s Reviews:</h5>
       {% for review in user_reviews%}
         <div class="card" id="saved_recipe">  
           <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}/5</h6>
@@ -28,7 +28,7 @@
       {%endfor%}
     </div>
     <div class="column" id="page-content" style="width:500px">
-      <h5>{{username}}'s recipes:</h5>
+      <h5>{{username}}'s Recipes:</h5>
       <div>
       {% for recipe in user_recipes%}
         <div class="card" id="saved_recipe">
@@ -36,6 +36,9 @@
             <h5>{{recipe.title}}</h5>
           </a>
           {{recipe.quick_description}}
+          <form action="{% url 'recipe' recipe.id%}delete_recipe" id="delete-button">
+            <button type="submit" id="delete">Delete</button>
+          </form>
         </div>
       {%endfor%}
       </div>
