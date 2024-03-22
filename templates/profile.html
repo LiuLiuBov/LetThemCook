@@ -2,7 +2,7 @@
 
 {% block body %}
   <h2>{{username}}'s Profile</h2>
-  <div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
+  <div id="profile-page">
     <div class="column" id="page-content">
         <h5>Saved Recipes:</h5>
           {%for save in saved_recipes%}
@@ -27,7 +27,7 @@
         </div>
       {%endfor%}
     </div>
-    <div class="column" id="page-content" style="width:500px">
+    <div class="column" id="page-content-recipe">
       <h5>{{username}}'s Recipes:</h5>
       <div>
       {% for recipe in user_recipes%}

@@ -181,6 +181,11 @@ button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
+#post-button{
+  background-color:red;
+  border-color:red
+}
+
 #delete {
   background-color:red;
   border-color:red;
@@ -207,8 +212,23 @@ button[type="submit"]:hover {
   width:500px
 }
 
+#recipe-content{
+  grid-template-columns: fit-content(80%);
+}
+
+#profile-page{
+  display:inline-flex;
+  grid-template-columns: 3fr 3fr;
+  columns:3;
+}
+
 #page-content{
   column-width:400px;
+  background-color: white;
+}
+
+#page-content-recipes{
+  column-width:500px;
   background-color: white;
 }
 
