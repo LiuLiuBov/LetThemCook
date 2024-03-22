@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from letthemcookapp.models import Recipe, Save, Review
 
 image_path = os.path.join(os.path.dirname(__file__), 'media')
-image_filenames = ['spaghetti.png', 'banana_bread.png']
+image_filenames = ['spaghetti.png', 'banana_bread.png', 'pizza.jpeg']
 
 def get_image_path(filename):
     return os.path.join(image_path, filename)
@@ -45,7 +45,15 @@ def populate():
             "ingredients": "Bananas\nFlour\nSugar\nButter\nEggs\nBaking Soda\nSalt",
             "picture": get_image_path(image_filenames[1]),
             "user": users[1]
-        }
+        },
+        {
+            "title": "Classic Pizza Margarita",
+            "quick_description": "Simple and classic pizza.",
+            "content": "Just buy in tesko and put in the oven.",
+            "ingredients": "He-He",
+            "picture": get_image_path(image_filenames[2]),
+            "user": users[2]
+        },
     ]
 
     for recipe_data in recipes_data:
