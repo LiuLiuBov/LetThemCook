@@ -74,7 +74,7 @@ def delete_recipe(request, recipe_id):
     if(request.user == recipe.user):
         recipe.delete()
     
-    return redirect('index')
+    return redirect('profile', request.user.username)
 
 
 def register(request):
@@ -118,16 +118,19 @@ def createrecipe(request):
 def create_review(request, recipe_id):
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
+        
         if form.is_valid():
-            if Review(recipe=Recipe.objects.get(id=recipe_id, user=request.user)):
+            try:
+                Review.objects.get(recipe=Recipe.objects.get(id=recipe_id), user=request.user)
+                return redirect('recipe',recipe_id=recipe_id)
+                
+            except:
+                review = Review(recipe=Recipe.objects.get(id=recipe_id), user=request.user, rating=form.cleaned_data["rating"])
+                review.comment = form.cleaned_data["comment"]
+                review.save()
+            
+                Recipe.objects.get(id=recipe_id).update_average()
                 return redirect('recipe', recipe_id=recipe_id)
-            
-            review = Review(recipe=Recipe.objects.get(id=recipe_id), user=request.user, rating=form.cleaned_data["rating"])
-            review.comment = form.cleaned_data["comment"]
-            review.save()
-            
-            Recipe.objects.get(id=recipe_id).update_average()
-            return redirect('recipe', recipe_id=recipe_id)
     else:
         form = ReviewForm()
     

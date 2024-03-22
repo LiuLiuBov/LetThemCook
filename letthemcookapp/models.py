@@ -15,7 +15,6 @@ class Recipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes')
 
     def update_average(self):
-        print("updating average")
         reviews = Review.objects.filter(recipe=self)
         if reviews.exists():
             self.average_rating = np.mean([review.rating for review in reviews])
