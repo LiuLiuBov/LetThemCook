@@ -167,7 +167,7 @@ def save_recipe(request, recipe_id):
         saved_instance.delete()
     return redirect('recipe', recipe_id=recipe_id)
 
-
+@login_required
 def delete_save(request, recipe_id):
     recipe= get_object_or_404(Recipe, id=recipe_id)
     saved_instance = Save.objects.get(user=request.user, recipe=recipe)
@@ -175,6 +175,7 @@ def delete_save(request, recipe_id):
     
     return redirect('profile', request.user.username)
 
+@login_required
 def saved(request):
     user = request.user
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()
@@ -182,15 +183,20 @@ def saved(request):
 
 @login_required
 def profile(request, username):
-    user = get_object_or_404(User, username=username)
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return render(request, 'user_not_found.html', {'username': username}, status=404)
+    
     user_recipes = Recipe.objects.filter(user=user)
     user_reviews = Review.objects.filter(user=user).order_by('-created_at')
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()
     
-    return render(request, 'profile.html', {'username': user.username,
+    return render(request, 'profile.html', {
+        'username': user.username,
         'user_recipes': user_recipes,
         'user_reviews': user_reviews,
-        'saved_recipes' : saved_recipes
+        'saved_recipes': saved_recipes
     })
 
 class RecipeSuggestionView(View):
@@ -219,3 +225,6 @@ def get_recipe_list(max_results=0, starts_with=''):
             recipe_list = recipe_list[:max_results]
 
     return recipe_list
+
+def page_not_found_view(request, exception):
+    return render(request, '404.html', {}, status=404)
