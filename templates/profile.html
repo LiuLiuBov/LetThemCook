@@ -18,7 +18,7 @@
           {%endfor%}
     </div>
     <div class="column" id="page-content">
-      <h5>{{username}}'s reviews:</h5>
+      <h5>{{username}}'s Reviews:</h5>
       {% for review in user_reviews%}
         <div class="card" id="saved_recipe">  
           <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}/5</h6>
@@ -28,7 +28,7 @@
       {%endfor%}
     </div>
     <div class="column" id="page-content" style="width:500px">
-      <h5>{{username}}'s recipes:</h5>
+      <h5>{{username}}'s Recipes:</h5>
       <div>
       {% for recipe in user_recipes%}
         <div class="card" id="saved_recipe">
@@ -36,6 +36,9 @@
             <h5>{{recipe.title}}</h5>
           </a>
           {{recipe.quick_description}}
+          <form action="{% url 'recipe' recipe.id%}delete_recipe" id="delete-button">
+            <button type="submit" id="delete">Delete</button>
+          </form>
         </div>
       {%endfor%}
       </div>

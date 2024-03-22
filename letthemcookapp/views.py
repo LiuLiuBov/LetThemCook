@@ -65,13 +65,16 @@ def recipe(request, recipe_id):
 
     except Recipe.DoesNotExist:
         context_dict['recipe'] = None
-        return redirect(reverse('index'))
+        return HttpResponseRedirect(reverse('index'))
 
     return render(request, 'recipe.html', context=context_dict)
 
 def delete_recipe(request, recipe_id):
-    Recipe.objects.delete(id=recipe_id)
-    return render(reverse('index'))   
+    recipe =Recipe.objects.get(id=recipe_id)
+    if(request.user == recipe.user):
+        recipe.delete()
+    
+    return redirect('index')
 
 
 def register(request):
