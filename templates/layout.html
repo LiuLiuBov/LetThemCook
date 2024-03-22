@@ -11,15 +11,6 @@
     </head>
     <body>
         <div class="container">
-            {% if messages %}
-                <div class="mt-3">
-                    {% for message in messages %}
-                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
 
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h1>Let Them Cook</h1>
@@ -59,6 +50,17 @@
                     </li>
                 {% endif %}
             </ul>
+
+            {% if messages %}
+    <div class="mt-3">
+        {% for message in messages %}
+            <div class="alert" role="alert" style="color: red;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 
         <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
         <script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
