@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body%}
-<div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
+<div id="profile-page">
     <div class="card" id="left-column">
         <div>
             <h2 id="recipe-title"> {{  recipe.title }} </h2>
@@ -30,24 +30,24 @@
             <p class="card-text">{{ recipe.quick_description }}</p>
         </div>
         <h5>Ingredients:</h3>
-        <div class="card" id="recipe-card"style="padding:20px;">
+        <div class="card" id="recipe-card">
         {% for ingredient in ingredients %}
             <li>{{ingredient}}</li>
         {% endfor %}
         </div>
         <h5>Instructions:</h3>
         
-        <div class="card" id="recipe-card" style="padding:20px">
+        <div class="card" id="recipe-card">
         {% for instruction in content%}
-            <li class="recipe-content" style="grid-template-columns: fit-content(80%)"> {{instruction}} </li>
+            <li class="recipe-content" id="recipe-content "> {{instruction}} </li>
         {% endfor%}
         </div>
     </div>
 
-    <div id="reviews" style="padding:10px">
+    <div id="reviews">
         <h5 id="average-raring">Average Rating: {{average}}</h5>
         <h5 id="reviews-title">Reviews:</h5>
-        <div class="card" style="padding:20px">
+        <div class="card">
         {% for review in reviews %}
             <div>
                 <h4>{{review.user.username}}</h4>
@@ -57,12 +57,12 @@
         {% endfor %}
         </div>
         <h5 class="add-reviews-title">Leave Your Own Review:</h5>
-        <div class="card" id="create-review" style="border-color:solid lightgray; padding: 3px;">
+        <div class="card" id="create-review">
             {% if user.is_authenticated %}
                 <form action="create_review/" method="post">
                     {% csrf_token %}
                     {{ form }}
-                    <button type="submit" style="background-color:red; border-color:red">Post Review</button>
+                    <button type="submit" id="post-button">Post Review</button>
                 </form>
             {% endif %}
         </div>
