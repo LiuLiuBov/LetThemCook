@@ -185,7 +185,7 @@ def profile(request, username):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        return render(request, 'user_not_found.html', {'username': username}, status=404)
+        return HttpResponseRedirect(reverse('index'))
     
     user_recipes = Recipe.objects.filter(user=user)
     user_reviews = Review.objects.filter(user=user).order_by('-created_at')
@@ -227,6 +227,3 @@ def get_recipe_list(max_results=0, starts_with=''):
             recipe_list = recipe_list[:max_results]
 
     return recipe_list
-
-def page_not_found_view(request, exception):
-    return render(request, '404.html', {}, status=404)

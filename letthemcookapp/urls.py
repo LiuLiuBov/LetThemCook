@@ -1,9 +1,6 @@
 from django.urls import path
 from . import views
 from django.conf.urls import handler404
-from letthemcookapp import views as letthemcookappviews
-
-handler404 = letthemcookappviews.page_not_found_view
 
 urlpatterns = [
     path("", views.index_view, name="index"),

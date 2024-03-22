@@ -23,9 +23,11 @@
           <h6><a href="{%url 'recipe' review.recipe.id%}">{{review.recipe.title}}</a>: {{review.rating}}★</h6>
           <p>{{review.comment}}</p>
           <p>{{review.created_at}}</p>
+          {% if is_user_profile %}
           <form action="{% url 'recipe' review.recipe.id%}{{review.user.username}}/delete_review" id="delete-button">
             <button type="submit" id="delete">Delete</button>
           </form>
+          {% endif %}
         </div>
       {%endfor%}
     </div>

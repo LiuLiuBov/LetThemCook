@@ -37,7 +37,6 @@ class Save(models.Model):
     saved_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # user cannot save the same recipe more than once.
         unique_together = ('user', 'recipe')
 
     def __str__(self):
@@ -52,7 +51,6 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # restrict users from reviewing the same recipe multiple times.
         unique_together = ('user', 'recipe')
 
     def __str__(self):
