@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views import View
 import numpy as np
+from django.contrib import messages
 
 from .models import Review, Save, User, Recipe
 from .forms import RecipeForm,ReviewForm
@@ -31,10 +32,10 @@ def login_view(request):
     else:
         return render(request, "login.html")
 
+@login_required
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def recipe(request, recipe_id):
     context_dict = {}
@@ -68,8 +69,9 @@ def recipe(request, recipe_id):
 
     return render(request, 'recipe.html', context=context_dict)
 
+@login_required
 def delete_recipe(request, recipe_id):
-    Recipe.objects.delete(id=recipe_id)
+    Recipe.objects.get(id=recipe_id).delete()
     return render(reverse('index'))   
 
 
@@ -106,28 +108,38 @@ def createrecipe(request):
             recipe.user = request.user
             recipe.save()
             return redirect('index')
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
         form = RecipeForm()
     return render(request, 'createrecipe.html', {'form': form})
 
+
 @login_required
 def create_review(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    existing_review = Review.objects.filter(recipe=recipe, user=request.user).exists()
+
+    if existing_review:
+        messages.error(request, "You have already reviewed this recipe.")
+        return redirect('recipe', recipe_id=recipe_id)
+
     if request.method == 'POST':
-        form = ReviewForm(request.POST, request.FILES)
+        form = ReviewForm(request.POST)
         if form.is_valid():
-            if Review(recipe=Recipe.objects.get(id=recipe_id, user=request.user)):
-                return redirect('recipe', recipe_id=recipe_id)
-            
-            review = Review(recipe=Recipe.objects.get(id=recipe_id), user=request.user, rating=form.cleaned_data["rating"])
-            review.comment = form.cleaned_data["comment"]
+            review = form.save(commit=False)
+            review.recipe = recipe
+            review.user = request.user
             review.save()
-            
-            Recipe.objects.get(id=recipe_id).update_average()
+            recipe.update_average()
+            messages.success(request, "Your review has been added.")
+            return redirect('recipe', recipe_id=recipe_id)
+        else:
+            messages.error(request, "There was an error with your submission.")
             return redirect('recipe', recipe_id=recipe_id)
     else:
         form = ReviewForm()
-    
-    return redirect('recipe', recipe_id=recipe_id)
+        return redirect('recipe', recipe_id=recipe_id)
 
 @login_required
 def save_recipe(request, recipe_id):
@@ -138,18 +150,13 @@ def save_recipe(request, recipe_id):
         saved_instance.delete()
     return redirect('recipe', recipe_id=recipe_id)
 
-def delete_save(request, recipe_id):
-    recipe= get_object_or_404(Recipe, id=recipe_id)
-    saved_instance = Save.objects.get(user=request.user, recipe=recipe)
-    saved_instance.delete()
-    
-    return redirect('profile', request.user.username)
-
+@login_required
 def saved(request):
     user = request.user
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()
     return render(request, 'saved.html', {'saved_recipes': saved_recipes})
 
+@login_required
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     user_recipes = Recipe.objects.filter(user=user)
