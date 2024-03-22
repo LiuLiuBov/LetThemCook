@@ -180,7 +180,6 @@ def saved(request):
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()
     return render(request, 'saved.html', {'saved_recipes': saved_recipes})
 
-@login_required
 def profile(request, username):
     try:
         user = User.objects.get(username=username)
