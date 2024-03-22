@@ -47,7 +47,7 @@
     <div id="reviews">
         <h5 id="average-raring">Average Rating: {{average}}</h5>
         <h5 id="reviews-title">Reviews:</h5>
-        <div class="card">
+        <div class="card" id="reviews-card">
         {% for review in reviews %}
             <div>
                 <h4>{{review.user.username}} <h6>{{review.rating}}★</h6></h4>
