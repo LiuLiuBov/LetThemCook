@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h2>{{username}}'s Profile</h2>
+  <h2>{{username}}'s profile</h2>
   <div style="display:inline-flex; grid-template-columns: 3fr 3fr; columns:3;">
     <div class="column" id="page-content">
         <h5>Saved Recipes:</h5>
@@ -11,9 +11,6 @@
               {{save.title}}
             </a>
             by {{save.user}}
-            <form action="{% url 'recipe' save.id%}delete_save" id="delete-button">
-              <button type="submit" id="delete">Delete</button>
-            </form>
           </div>
           {%endfor%}
     </div>
