@@ -134,6 +134,13 @@ def save_recipe(request, recipe_id):
         saved_instance.delete()
     return redirect('recipe', recipe_id=recipe_id)
 
+def delete_save(request, recipe_id):
+    recipe= get_object_or_404(Recipe, id=recipe_id)
+    saved_instance = Save.objects.get(user=request.user, recipe=recipe)
+    saved_instance.delete()
+    
+    return redirect('profile', request.user.username)
+
 def saved(request):
     user = request.user
     saved_recipes = Recipe.objects.filter(save__user=user).distinct()

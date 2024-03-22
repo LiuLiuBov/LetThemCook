@@ -11,8 +11,8 @@
                 {{save.title}}
               </a>
             by {{save.user}}
-            <form action="{% url 'profile' user.username recipe.id}/delete_save/>
-              <button type="submit" style="background-color:red; border-color:red; height=30px width=30px">Delete</button>
+            <form action="{% url 'recipe' save.id%}delete_save">
+              <button type="submit" id="delete">Delete</button>
             </form>
           </div>
           {%endfor%}

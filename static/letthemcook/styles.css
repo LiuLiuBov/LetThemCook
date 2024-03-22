@@ -193,6 +193,13 @@ button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
+button[type="submit"]:delete {
+  background-color:red;
+  border-color:red;
+  height:30px;
+  width:30px;
+}
+
 @media (max-width: 768px) {
   form {
       padding: 15px;
