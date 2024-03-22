@@ -72,8 +72,10 @@ def recipe(request, recipe_id):
 
 @login_required
 def delete_recipe(request, recipe_id):
-    Recipe.objects.get(id=recipe_id).delete()
-    return redirect('index') 
+    recipe = get_object_or_404(Recipe, id=recipe_id, user=request.user)
+    recipe.delete()
+    messages.success(request, "Recipe deleted successfully.")
+    return redirect('index')
 
 
 def register(request):
@@ -119,12 +121,18 @@ def createrecipe(request):
 @login_required
 def create_review(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
+    
+    # Check if the recipe belongs to the logged-in user
+    if recipe.user == request.user:
+        messages.error(request, "You cannot review your own recipe.")
+        return redirect('recipe', recipe_id=recipe_id)
+    
     existing_review = Review.objects.filter(recipe=recipe, user=request.user).exists()
-
+    
     if existing_review:
         messages.error(request, "You have already reviewed this recipe.")
         return redirect('recipe', recipe_id=recipe_id)
-
+    
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -137,10 +145,10 @@ def create_review(request, recipe_id):
             return redirect('recipe', recipe_id=recipe_id)
         else:
             messages.error(request, "There was an error with your submission.")
-            return redirect('recipe', recipe_id=recipe_id)
     else:
         form = ReviewForm()
-        return redirect('recipe', recipe_id=recipe_id)
+    
+    return redirect('recipe', recipe_id=recipe_id)
 
 @login_required
 def save_recipe(request, recipe_id):
