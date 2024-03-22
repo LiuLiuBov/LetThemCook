@@ -75,7 +75,7 @@ def delete_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id, user=request.user)
     recipe.delete()
     messages.success(request, "Recipe deleted successfully.")
-    return redirect('index')
+    return redirect('profile', request.user.username)
 
 
 def register(request):
@@ -140,7 +140,6 @@ def create_review(request, recipe_id):
             review.user = request.user
             review.save()
             recipe.update_average()
-            messages.success(request, "Your review has been added.")
             return redirect('recipe', recipe_id=recipe_id)
         else:
             messages.error(request, "There was an error with your submission.")
