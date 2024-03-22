@@ -162,7 +162,7 @@ class RecipeSuggestionView(View):
                 starts_with=suggestion)
         
         if len(recipe_list) == 0:
-            recipe_list = Recipe.objects.order_by('title')
+            recipe_list = Recipe.objects.order_by('-average_rating')
 
         return render(request,'recipe_list.html',{'recipes': recipe_list})
 

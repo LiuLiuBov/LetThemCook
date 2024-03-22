@@ -12,7 +12,6 @@ urlpatterns = [
     path("recipe/<int:recipe_id>/", views.recipe, name="recipe"),
     path("recipe/<int:recipe_id>/save/", views.save_recipe, name="save_recipe"),
     path("recipe/<int:recipe_id>/delete_recipe", views.delete_recipe,name="delete_recipe"),
-    #No recipe view so code crashes
     path("recipe/<int:recipe_id>/create_review/", views.create_review, name="create_review"),
     path("suggest/", views.RecipeSuggestionView.as_view(), name='suggest'),
 ]

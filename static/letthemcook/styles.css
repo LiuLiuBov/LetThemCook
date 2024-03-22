@@ -8,6 +8,15 @@ h2{
 
 .card{
   margin: 10px;
+  height: 400px;
+  width: 350px;
+  padding: 20px;
+  margin: 10px;
+  background-color:white;
+}
+
+.card:a{
+  padding:20px;
 }
 
 .card:saved_recipe{
@@ -18,12 +27,6 @@ h2{
   padding:20px;
   display:inline-flex;
   flex-direction: column;
-}
-
-.card{
-  padding: 20px;
-  margin: 10px;
-  background-color:white;
 }
 
 .card-profile{
